@@ -1,16 +1,16 @@
 <?php
-$galleryPath = 'images/'; // Путь к папке галереи
-$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Разрешенные расширения файлов
+$galleryPath = 'images/';
+$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
 // Функция для проверки расширения файла
-function isValidExtension($filename) {
+function isValidExtension($filename): bool {
     $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
     global $allowedExtensions;
     return in_array($extension, $allowedExtensions);
 }
 
 // Функция для чтения файлов из папки галереи и отбора изображений
-function getImagesFromGallery() {
+function getImagesFromGallery(): array {
     global $galleryPath;
     $images = [];
     $files = scandir($galleryPath);
@@ -49,17 +49,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Gallery</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <h1>Photo Gallery</h1>
 
 <h2>Gallery</h2>
+
 <?php
 // Вывод изображений из галереи
 $images = getImagesFromGallery();
 foreach ($images as $image) {
-    echo '<img src="' . $image . '" width="200" height="200" alt="Image">';
+    echo '<div class="image-container">';
+    echo "<img src='$image' alt='Image'>";
+    echo '</div>';
 }
 ?>
 
@@ -70,11 +77,11 @@ foreach ($images as $image) {
 </form>
 
 <?php
-// Вывод ошибки, если есть
 if (isset($error)) {
     echo '<p>Error: ' . $error . '</p>';
 }
 ?>
+
 </body>
 </html>
 
