@@ -10,3 +10,4 @@
 #### [Task_2.1](https://github.com/elgrenka/test-sozdavatel/tree/Task_2.1 "Task_2.1") <br>
 #### [Task_1.5](https://github.com/elgrenka/test-sozdavatel/tree/Task_1.5 "Task_1.5") <br>
 #### [Task_1.4](https://github.com/elgrenka/test-sozdavatel/tree/Task_1.4 "Task_1.4") <br>
+#### [Task_1.3](https://github.com/elgrenka/test-sozdavatel/tree/Task_1.3 "Task_1.3") <br>
