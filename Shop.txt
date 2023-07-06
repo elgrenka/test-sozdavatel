@@ -1,0 +1,37 @@
+Откройте административную панель 1C-Bitrix и перейдите в раздел "Магазин" -> "Статусы заказов".
+
+Найдите статус "Завершен" и откройте его для редактирования.
+
+В разделе "Действия" выберите вкладку "PHP-код". Здесь вы сможете написать свой код для выполнения
+необходимых действий при переводе заказа в этот статус.
+
+В поле "Код" напишите следующий код:
+
+if ($arParams['VALUE'] === 'F') { // Проверяем, что заказ переводится в статус "Завершен"
+    $order = \Bitrix\Sale\Order::load($arParams['ORDER_ID']); // Загружаем заказ по ID
+    $basket = $order->getBasket(); // Получаем корзину заказа
+
+    $totalPrice = 0; // Общая стоимость товаров
+    $totalWeight = 0; // Общий вес товаров
+
+    foreach ($basket as $basketItem) {
+        $totalPrice += $basketItem->getFinalPrice(); // Суммируем стоимость товаров
+        $totalWeight += $basketItem->getWeight(); // Суммируем вес товаров
+    }
+
+    $deliveryPrice = $order->getDeliveryPrice(); // Получаем стоимость доставки
+    $orderTotal = $totalPrice - $deliveryPrice; // Стоимость товаров без доставки
+
+    if ($orderTotal > 5000) { // Проверяем, что стоимость товаров без доставки превышает 5000 рублей
+        $bonusAmount = $orderTotal * 0.05; // Расчет суммы для бонусного счета (5% от стоимости товаров)
+
+        // Добавляем сумму на бонусный счет пользователя
+        $userId = $order->getUserId();
+        if ($userId) {
+            \CSaleUserAccount::UpdateAccount($userId, $bonusAmount, 'RUB', 'BONUS');
+        }
+    }
+}
+
+Сохраните изменения.
+
