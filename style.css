@@ -1,0 +1,7 @@
+.plus::before {
+  content: "[+] ";
+}
+
+.minus::before {
+  content: "[-] ";
+}
